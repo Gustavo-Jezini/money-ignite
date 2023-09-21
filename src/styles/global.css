@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 body {
+  background-color: #202024;
+  color: #E1E1E6;
   -webkit-font-smoothing: antialised;
 }
 
@@ -10,4 +12,13 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+  bpx-shadow: #00875F;
+}
+
+body, input, textarea, button {
+  font: 400 1rem Roboto, sans-serif
 }
