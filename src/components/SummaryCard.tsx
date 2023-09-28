@@ -1,4 +1,5 @@
 import { tv } from 'tailwind-variants'
+import { formatterPrice } from '../utils/formatter'
 
 const card = tv({
   base: 'rounded-md bg-gray-600 p-8',
@@ -30,7 +31,7 @@ interface SummaryCardProps {
   variant?: 'positive' | 'negative' | 'gains' | 'loss'
   Icon: React.ElementType
   title: string
-  money: string
+  money: number
 }
 
 export function SummaryCard({ variant, Icon, title, money }: SummaryCardProps) {
@@ -43,7 +44,9 @@ export function SummaryCard({ variant, Icon, title, money }: SummaryCardProps) {
         <Icon size={32} className={icon({ variant })} />
       </header>
 
-      <strong className="mt-4 block text-3xl">$ {money}</strong>
+      <strong className="mt-4 block text-3xl">
+        {formatterPrice.format(money)}
+      </strong>
     </div>
   )
 }

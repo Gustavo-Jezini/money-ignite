@@ -1,10 +1,13 @@
+import { useContext } from 'react'
 import { Header } from '../components/Header'
 import { SearchForm } from '../components/SearchForm'
 import { Summary } from '../components/Summary'
 import { tv } from 'tailwind-variants'
+import { TransactionsContext } from '../Contexts/TransactionsContexts'
+import { formatterDate, formatterPrice } from '../utils/formatter'
 
 const td = tv({
-  base: 'w-1/2 bg-gray-700 px-8 py-6',
+  base: 'bg-gray-700 px-8 py-6',
 
   variants: {
     variant: {
@@ -15,6 +18,7 @@ const td = tv({
 })
 
 export function Transactions() {
+  const { transactions } = useContext(TransactionsContext)
   return (
     <>
       <Header />
@@ -22,41 +26,32 @@ export function Transactions() {
 
       <SearchForm />
 
-      <div className="mx-auto mt-4 w-full max-w-[1120px]  px-6">
-        <table className="w-full border-spacing-x-2">
-          <tbody className="flex flex-col space-y-3">
-            <tr>
-              <td className="w-1/2 rounded-l-md bg-gray-700 px-8 py-6">
-                Desenvolvimento do site
-              </td>
-              <td className={td({ variant: 'gain' })}>$ 12,000.00</td>
-              <td className="w-1/2 bg-gray-700 px-8 py-6">Venda</td>
-              <td className="w-1/2 rounded-r-md bg-gray-700 px-8 py-6">
-                13/05/2023
-              </td>
-            </tr>
-
-            <tr>
-              <td className="w-1/2 rounded-l-md bg-gray-700 px-8 py-6">
-                Vila N
-              </td>
-              <td className={td({ variant: 'loss' })}> - $ 59.00</td>
-              <td className="w-1/2 bg-gray-700 px-8 py-6">Venda</td>
-              <td className="w-1/2 rounded-r-md bg-gray-700 px-8 py-6">
-                13/05/2023
-              </td>
-            </tr>
-
-            <tr>
-              <td className="w-1/2 rounded-l-md bg-gray-700 px-8 py-6">
-                Aluguel
-              </td>
-              <td className={td({ variant: 'gain' })}>$ 12,000.00</td>
-              <td className="w-1/2 bg-gray-700 px-8 py-6">Venda</td>
-              <td className="w-1/2 rounded-r-md bg-gray-700 px-8 py-6">
-                13/05/2023
-              </td>
-            </tr>
+      <div className="mx-auto mt-16 w-full max-w-[1120px]  px-6">
+        <table className="w-full border-separate border-spacing-y-3">
+          <tbody>
+            {transactions.map((transaction) => {
+              return (
+                <tr key={transaction.id}>
+                  <td className="rounded-l-md bg-gray-700 px-8 py-6">
+                    {transaction.description}
+                  </td>
+                  <td
+                    className={td({
+                      variant: transaction.type === 'income' ? 'gain' : 'loss',
+                    })}
+                  >
+                    {transaction.type === 'outcome' && '- '}
+                    {formatterPrice.format(transaction.price)}
+                  </td>
+                  <td className="bg-gray-700 px-8 py-6">
+                    {transaction.category}
+                  </td>
+                  <td className="rounded-r-md bg-gray-700 px-8 py-6">
+                    {formatterDate.format(new Date(transaction.createdAt))}
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
