@@ -5,6 +5,8 @@ import { tv } from 'tailwind-variants'
 import * as z from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useContext } from 'react'
+import { TransactionsContext } from '../Contexts/TransactionsContexts'
 
 const button = tv({
   base: 'group bg-gray-700 flex p-4 items-center justify-center gap-2 rounded-md cursor-pointer border-0 <text-gray-3></text-gray-3>00',
@@ -29,11 +31,14 @@ const newTransactionFormSchema = z.object({
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 
 export function NewTransactionModal() {
+  const { createTransaction } = useContext(TransactionsContext)
+
   const {
     control,
     register,
     handleSubmit,
     formState: { isSubmitting },
+    reset,
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
     defaultValues: {
@@ -42,8 +47,16 @@ export function NewTransactionModal() {
   })
 
   async function handleNewTransactionForm(data: NewTransactionFormInputs) {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.log(data)
+    const { description, price, category, type } = data
+
+    await createTransaction({
+      description,
+      price,
+      category,
+      type,
+    })
+
+    reset()
   }
 
   return (
@@ -132,7 +145,7 @@ export function NewTransactionModal() {
               className="mt-6 h-14 cursor-pointer rounded-md border-0 bg-green-500 px-5 font-bold text-white hover:bg-green-700 hover:transition disabled:cursor-not-allowed disabled:opacity-60"
               type="submit"
             >
-              Cadastraar
+              Cadastrar
             </button>
           </form>
         </Dialog.Content>

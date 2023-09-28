@@ -23,6 +23,22 @@
       "category": "Educação",
       "price": 2350,
       "createdAt": "2022-07-29T19:30:44.505Z"
+    },
+    {
+      "category": "Golpe",
+      "description": "Golpe urubu do pix",
+      "price": 1700,
+      "type": "outcome",
+      "createdAt": "2023-09-28T22:06:25.579Z",
+      "id": 4
+    },
+    {
+      "description": "iphood",
+      "price": 7,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2023-09-28T22:51:07.946Z",
+      "id": 5
     }
   ]
 }
