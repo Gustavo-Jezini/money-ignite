@@ -2,6 +2,9 @@ import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 import { tv } from 'tailwind-variants'
+import * as z from 'zod'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const button = tv({
   base: 'group bg-gray-700 flex p-4 items-center justify-center gap-2 rounded-md cursor-pointer border-0 <text-gray-3></text-gray-3>00',
@@ -16,7 +19,33 @@ const button = tv({
   },
 })
 
+const newTransactionFormSchema = z.object({
+  price: z.number(),
+  description: z.string(),
+  category: z.string(),
+  type: z.enum(['income', 'outcome']),
+})
+
+type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
+
 export function NewTransactionModal() {
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<NewTransactionFormInputs>({
+    resolver: zodResolver(newTransactionFormSchema),
+    defaultValues: {
+      type: 'income',
+    },
+  })
+
+  async function handleNewTransactionForm(data: NewTransactionFormInputs) {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    console.log(data)
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -38,51 +67,69 @@ export function NewTransactionModal() {
             <X size={24} />
           </Dialog.Close>
 
-          <form action="" className="mt-8 flex flex-col gap-4">
+          <form
+            onSubmit={handleSubmit(handleNewTransactionForm)}
+            className="mt-8 flex flex-col gap-4"
+          >
             <input
+              {...register('description')}
               className="rounded-md border-0 bg-gray-900 p-4 text-gray-300 placeholder:text-gray-500 focus:border focus:border-green-600"
               type="text"
               placeholder="Descrição"
               required
             />
             <input
+              {...register('price', { valueAsNumber: true })}
               className="rounded-md border-0 bg-gray-900 p-4 text-gray-300 placeholder:text-gray-500 focus:border focus:border-green-600"
               type="number"
               placeholder="Preço"
               required
             />
             <input
+              {...register('category')}
               className="rounded-md border-0 bg-gray-900 p-4 text-gray-300 placeholder:text-gray-500 focus:border focus:border-green-600"
               type="text"
               placeholder="Categoria"
               required
             />
 
-            <RadioGroup.Root className="mt-2 grid grid-cols-2 gap-4">
-              <RadioGroup.Item
-                value="income"
-                className={button({ variant: 'income' })}
-              >
-                <ArrowCircleUp
-                  size={24}
-                  className="text-green-600 group-hover:text-white group-data-[state=checked]:text-white"
-                />
-                Entrada
-              </RadioGroup.Item>
-              <RadioGroup.Item
-                value="outcome"
-                className={button({ variant: 'outcome' })}
-              >
-                <ArrowCircleDown
-                  size={24}
-                  className="text-red-600 group-hover:text-white group-data-[state=checked]:text-white"
-                />
-                Saida
-              </RadioGroup.Item>
-            </RadioGroup.Root>
-
+            <Controller
+              control={control}
+              name="type"
+              render={({ field }) => {
+                return (
+                  <RadioGroup.Root
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    className="mt-2 grid grid-cols-2 gap-4"
+                  >
+                    <RadioGroup.Item
+                      value="income"
+                      className={button({ variant: 'income' })}
+                    >
+                      <ArrowCircleUp
+                        size={24}
+                        className="text-green-600 group-hover:text-white group-data-[state=checked]:text-white"
+                      />
+                      Entrada
+                    </RadioGroup.Item>
+                    <RadioGroup.Item
+                      value="outcome"
+                      className={button({ variant: 'outcome' })}
+                    >
+                      <ArrowCircleDown
+                        size={24}
+                        className="text-red-600 group-hover:text-white group-data-[state=checked]:text-white"
+                      />
+                      Saida
+                    </RadioGroup.Item>
+                  </RadioGroup.Root>
+                )
+              }}
+            />
             <button
-              className="mt-6 h-14 cursor-pointer rounded-md border-0 bg-green-500 px-5 font-bold text-white hover:bg-green-700 hover:transition"
+              disabled={isSubmitting}
+              className="mt-6 h-14 cursor-pointer rounded-md border-0 bg-green-500 px-5 font-bold text-white hover:bg-green-700 hover:transition disabled:cursor-not-allowed disabled:opacity-60"
               type="submit"
             >
               Cadastraar
