@@ -5,8 +5,8 @@ import { tv } from 'tailwind-variants'
 import * as z from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useContext } from 'react'
 import { TransactionsContext } from '../Contexts/TransactionsContexts'
+import { useContextSelector } from 'use-context-selector'
 
 const button = tv({
   base: 'group bg-gray-700 flex p-4 items-center justify-center gap-2 rounded-md cursor-pointer border-0 <text-gray-3></text-gray-3>00',
@@ -31,7 +31,12 @@ const newTransactionFormSchema = z.object({
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 
 export function NewTransactionModal() {
-  const { createTransaction } = useContext(TransactionsContext)
+  const createTransaction = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return context.createTransaction
+    },
+  )
 
   const {
     control,
