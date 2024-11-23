@@ -9,19 +9,19 @@ export function Summary() {
       <SummaryCard
         Icon={ArrowCircleUp}
         variant="gains"
-        title="Entradas"
+        title="Gains"
         money={summary.income}
       />
       <SummaryCard
         Icon={ArrowCircleDown}
         variant="loss"
-        title="Entradas"
+        title="Loss"
         money={summary.outcome}
       />
       <SummaryCard
         Icon={CurrencyDollar}
         variant="positive"
-        title="Entradas"
+        title="Total"
         money={summary.total}
       />
     </section>

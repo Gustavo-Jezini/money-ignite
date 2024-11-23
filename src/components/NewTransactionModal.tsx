@@ -68,7 +68,7 @@ export function NewTransactionModal() {
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <button className="h-12 cursor-pointer rounded-md  border-none bg-green-500 px-5 text-white hover:bg-green-700 hover:transition">
-          Nova transação
+          New Transaction
         </button>
       </Dialog.Trigger>
 
@@ -76,7 +76,7 @@ export function NewTransactionModal() {
         <Dialog.Overlay className="fixed inset-0 h-screen w-screen bg-gray-700/75" />
 
         <Dialog.Content className="fixed left-1/2 top-1/2 min-w-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-800 px-12 py-10">
-          <Dialog.Title>Nova transação</Dialog.Title>
+          <Dialog.Title>New Transaction</Dialog.Title>
 
           <Dialog.Close
             className="absolute right-6 top-6 cursor-pointer border-0 bg-transparent text-[0px] text-gray-500"
@@ -93,21 +93,21 @@ export function NewTransactionModal() {
               {...register('description')}
               className="rounded-md border-0 bg-gray-900 p-4 text-gray-300 placeholder:text-gray-500 focus:border focus:border-green-600"
               type="text"
-              placeholder="Descrição"
+              placeholder="Description"
               required
             />
             <input
               {...register('price', { valueAsNumber: true })}
               className="rounded-md border-0 bg-gray-900 p-4 text-gray-300 placeholder:text-gray-500 focus:border focus:border-green-600"
               type="number"
-              placeholder="Preço"
+              placeholder="Price"
               required
             />
             <input
               {...register('category')}
               className="rounded-md border-0 bg-gray-900 p-4 text-gray-300 placeholder:text-gray-500 focus:border focus:border-green-600"
               type="text"
-              placeholder="Categoria"
+              placeholder="Category"
               required
             />
 
@@ -129,7 +129,7 @@ export function NewTransactionModal() {
                         size={24}
                         className="text-green-600 group-hover:text-white group-data-[state=checked]:text-white"
                       />
-                      Entrada
+                      Income
                     </RadioGroup.Item>
                     <RadioGroup.Item
                       value="outcome"
@@ -139,7 +139,7 @@ export function NewTransactionModal() {
                         size={24}
                         className="text-red-600 group-hover:text-white group-data-[state=checked]:text-white"
                       />
-                      Saida
+                      Loss
                     </RadioGroup.Item>
                   </RadioGroup.Root>
                 )
@@ -150,7 +150,7 @@ export function NewTransactionModal() {
               className="mt-6 h-14 cursor-pointer rounded-md border-0 bg-green-500 px-5 font-bold text-white hover:bg-green-700 hover:transition disabled:cursor-not-allowed disabled:opacity-60"
               type="submit"
             >
-              Cadastrar
+              Submit
             </button>
           </form>
         </Dialog.Content>
